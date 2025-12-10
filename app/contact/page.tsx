@@ -5,26 +5,39 @@ import React, { useState } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 const Contact: React.FC = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    console.log(form);
-    setStatus("Message sent successfully!");
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setStatus(""); 
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setStatus("Message sent successfully!");
+        setForm({ name: "", email: "", phone: "", message: "" });
+      } else {
+        setStatus(result.error || "Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("Something went wrong");
+    }
   };
+  
+    
 
   return (
     <div className="bg-white min-h-screen">
@@ -92,12 +105,17 @@ const Contact: React.FC = () => {
     <div className="container relative z-10 mx-auto px-4">
       <div className="max-w-md mx-auto">
         <h2 className="text-3xl font-bold text-white mb-8">Send Us a Message</h2>
-        <form className="space-y-4">
+         {status && <p className="text-green-400 mb-4">{status}</p>}
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-white font-medium mb-2">Name*</label>
             <input
               type="text"
+              name="name"
               placeholder="Name"
+              value={form.name}
+              required
+              onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
           </div>
@@ -106,6 +124,10 @@ const Contact: React.FC = () => {
             <label className="block text-white font-medium mb-2">Email*</label>
             <input
               type="email"
+              name="email"
+              onChange={handleChange}
+              required
+              value={form.email}
               placeholder="email@email.com"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
@@ -115,7 +137,11 @@ const Contact: React.FC = () => {
             <label className="block text-white font-medium mb-2">Phone Number</label>
             <input
               type="tel"
+              name="phone"
               placeholder="123-456-7890"
+              onChange={handleChange}
+              value={form.phone}
+              required
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
           </div>
@@ -124,6 +150,10 @@ const Contact: React.FC = () => {
             <label className="block text-white font-medium mb-2">Message*</label>
             <textarea
               placeholder="Tell us about your health concerns..."
+              onChange={handleChange}
+              value={form.message}
+              required
+              name="message"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077] h-32"
             />
           </div>
@@ -175,6 +205,11 @@ Message Into Momentum
         </div>
       </section>
     
+   
+
+
+
+
    
 
 </div>
