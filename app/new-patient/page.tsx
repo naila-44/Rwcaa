@@ -1,6 +1,36 @@
+"use client";
 import Link from "next/link";
-
+import {useState} from "react";
 const NewPatient: React.FC = () => {
+    const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [status, setStatus] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("");
+
+    try {
+      const res = await fetch("/api/new-patient", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        setStatus("Message sent successfully!");
+        setForm({ name: "", email: "", phone: "", message: "" });
+      } else {
+        setStatus(result.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("Something went wrong");
+    }
+  };
   return (
     <section className="py-24 px-6 bg-white min-h-screen">
     
@@ -30,7 +60,7 @@ const NewPatient: React.FC = () => {
         </p>
       </div>
 
-      {/* Steps */}
+    
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center mb-20 mt-10">
         <div className="p-6 bg-white rounded-lg flex flex-col items-center">
           <img src="/icons/2.jpg" alt="Consultation" className="w-full mb-5" />
@@ -58,7 +88,7 @@ const NewPatient: React.FC = () => {
         </div>
       </div>
 
-      {/* Exam Section */}
+     
       <div className="text-center mb-20 bg-[#1D4077] py-16 rounded-xl">
         <h2 className="text-3xl text-white font-bold mb-6">What to Expect in the Exam</h2>
 
@@ -103,7 +133,7 @@ const NewPatient: React.FC = () => {
         </div>
       </div>
 
-      {/* Getting Started Section */}
+    
       <div className="text-center mb-20">
         <h2 className="text-3xl text-blue-900 font-bold mb-6">
           Getting Started is Easy
@@ -118,16 +148,16 @@ const NewPatient: React.FC = () => {
        
      <div className="space-y-32 mt-20">
 
-  {/* Row 1 */}
+ 
   <div className="md:flex md:items-center md:space-x-16">
     
-    {/* Image */}
+
     <img
       src="/icons/s.png"
       className="w-56 md:w-64 mx-auto md:mx-0"
     />
 
-    {/* Content */}
+   
     <div className="text-center md:text-left md:max-w-2xl">
       <h3 className="text-4xl font-extrabold text-[#1D4077] mb-4">
         Schedule an Appointment
@@ -144,7 +174,7 @@ const NewPatient: React.FC = () => {
     </div>
   </div>
 
-  {/* Row 2 */}
+
   <div className="md:flex md:items-center md:space-x-16">
     
     <img
@@ -235,14 +265,19 @@ const NewPatient: React.FC = () => {
     <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
       <div className="  p-10 shadow-xl">
         <h2 className="text-3xl font-bold text-[#1D4077] mb-6">Send Us a Message</h2>
+         {status && <p className="text-green-400 mb-4">{status}</p>}
         <p className="text-white mb-6 text-sm">*required</p>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-white font-medium mb-2">Name*</label>
             <input
               type="text"
+              name="name"
+              required
               placeholder="Jane Smith"
+              value={form.name}
+              onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
           </div>
@@ -251,6 +286,11 @@ const NewPatient: React.FC = () => {
             <label className="block text-white font-medium mb-2">Email*</label>
             <input
               type="email"
+              name="email"
+              onChange={handleChange
+              }
+              required
+              value={form.email}
               placeholder="jane@email.com"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
@@ -260,6 +300,10 @@ const NewPatient: React.FC = () => {
             <label className="block text-white font-medium mb-2">Phone Number</label>
             <input
               type="tel"
+              onChange={handleChange}
+              value={form.phone}
+              name="phone"
+              required
               placeholder="123-456-7890"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077]"
             />
@@ -270,6 +314,13 @@ const NewPatient: React.FC = () => {
             <textarea
               placeholder="Tell us about your health concerns..."
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1D4077] h-32"
+              onChange={handleChange
+                
+              }
+              required
+              value={form.message
+              }
+              name="message"
             />
           </div>
 
