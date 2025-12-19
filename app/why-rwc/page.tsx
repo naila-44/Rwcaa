@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight } from "react-feather"; // make sure you have this or replace with any icon
-
+import { ChevronRight } from "react-feather"; 
 export default function WhyRWC() {
   const services = [
     {
@@ -63,7 +62,7 @@ export default function WhyRWC() {
 
   return (
     <>
-      {/* Hero Section */}
+     
       <section
         className="relative py-24 md:py-32 lg:py-40"
         style={{
@@ -86,7 +85,7 @@ export default function WhyRWC() {
         </div>
       </section>
 
-      {/* Intro + Image Section */}
+     
       <section className="py-24 md:py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
@@ -119,7 +118,7 @@ export default function WhyRWC() {
         </div>
       </section>
 
-      {/* Services Sections */}
+     
       {services.map((service, idx) => (
         <section
           key={idx}
