@@ -10,16 +10,16 @@ export default function ContactCTA() {
           'linear-gradient(135deg, rgb(29, 64, 119) 0%, rgb(45, 80, 135) 50%, rgb(53, 102, 178) 100%)',
       }}
     >
-      {/* Background Elements */}
+     
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-10 right-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
       </div>
 
-      {/* Content Section */}
+  
       <div className="relative z-10 container mx-auto px-4">
         <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-10 md:p-16 border border-white/20 shadow-2xl">
-          {/* Title */}
+        
           <div className="text-center mb-10">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Ready to Start Your
@@ -31,7 +31,6 @@ export default function ContactCTA() {
             </p>
           </div>
 
-          {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
               href="/new-patient"
