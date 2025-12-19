@@ -1,5 +1,6 @@
 "use client";
-import Link from 'next/link';
+
+import Link from "next/link";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -10,16 +11,16 @@ const testimonials = [
 
 I wish more doctors understood what Dr. Geck does. He is a maverick in the true sense of the word. He uses cutting edge techniques to both diagnose and treat his patients. Honestly, I think he can fix almost anything.
 
-The office is friendly, spacious and inviting. The AMIT techniques give and the therapeutic staff give patients immediate relief. When you add the nutritional supplements and the in office massages — there really isn't a place l'd rather be.
+The office is friendly, spacious and inviting. The AMIT techniques give and the therapeutic staff give patients immediate relief. 
 
-I know this sounds unreal, but it's true. Go see for yourself — you will feel better than you ever have!
+
     `,
     author: "Debora M.",
   },
   {
     title: "More Energy and Stamina and Overall Feeling Better",
     description:
-      "I have been under the care of Dr. Geck for several months now regarding treatment for chronic inflammation due to Lyme's disease.my options in seeking help in this SPECIALIZED area were very minimal.      I have greatly appreciated all of Dr. Geck's extreme dedication, expertise, and care on my behalf.I am pain free and truly thought I may have to live with this condition for my remaining life.I would never hesitate to recommend anyone to this office for any issue.Dr. Geck and his entire staff will provide you with the up most care!A VERY GRATEFUL PATIENT.",
+      "I have been under the care of Dr. Geck for several months now regarding treatment for chronic inflammation due to Lyme's disease.my options in seeking help in this SPECIALIZED area were very minimal. I have greatly appreciated all of Dr. Geck's extreme dedication, expertise, and care on my behalf. I am pain free and truly thought I may have to live with this condition for my remaining life. I would never hesitate to recommend anyone to this office for any issue. Dr. Geck and his entire staff will provide you with the up most care! A VERY GRATEFUL PATIENT.",
     author: "Sarah L.",
   },
   {
@@ -50,26 +51,21 @@ export default function Testimonials() {
   const goPrev = () => setIndex((i) => (i === 0 ? total - 1 : i - 1));
 
   return (
-    <section
-      className="py-24 px-6 min-h-screen bg-purple-200/10"
-      style={{
-       
-      }}
-    >
-     
+    <section className="py-24 px-6 min-h-screen bg-purple-200/10">
+    
       <h2 className="text-center text-[#1D4077] text-5xl font-extrabold mb-14">
         What Our Patients Are Saying
       </h2>
 
-     
-      <div className="max-w-4xl mx-auto bg-white p-14 rounded-3xl shadow-xl relative">
+  
+      <div className="max-w-4xl mx-auto bg-white p-14 rounded-3xl shadow-xl relative min-h-[520px] flex flex-col transition-all duration-500">
         <div className="text-pink-400 text-6xl mb-4">“</div>
 
         <h3 className="text-3xl font-bold text-blue-900 mb-6 leading-snug">
           {testimonials[index].title}
         </h3>
 
-        <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+        <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
           {testimonials[index].description}
         </p>
 
@@ -80,9 +76,7 @@ export default function Testimonials() {
         </div>
       </div>
 
-    
       <div className="flex justify-center items-center mt-10 gap-6">
-     
         <button
           onClick={goPrev}
           className="bg-white shadow-lg p-3 rounded-full hover:bg-gray-100 transition border-black"
@@ -90,7 +84,6 @@ export default function Testimonials() {
           <ChevronLeft className="text-blue-700" size={24} />
         </button>
 
-      
         <div className="flex gap-3">
           {Array.from({ length: total }).map((_, i) => (
             <div
@@ -103,7 +96,6 @@ export default function Testimonials() {
           ))}
         </div>
 
-      
         <button
           onClick={goNext}
           className="bg-white shadow-lg p-3 rounded-full hover:bg-gray-100 transition"
@@ -112,19 +104,19 @@ export default function Testimonials() {
         </button>
       </div>
 
-     
+
       <p className="text-center text-black text-lg mt-3">
         {index + 1} / {total}
       </p>
 
-      
-     <div className="text-center mt-10">
-  <Link href="/success-stories">
-    <button className="px-8 py-4 bg-[#1D4077] text-white font-bold rounded-xl shadow-lg hover:bg-gray-100 transition text-lg">
-      Read More Success Stories
-    </button>
-  </Link>
-</div>
+    
+      <div className="text-center mt-10">
+        <Link href="/success-stories">
+          <button className="px-8 py-4 bg-[#1D4077] text-white font-bold rounded-xl shadow-lg hover:bg-gray-100 transition text-lg">
+            Read More Success Stories
+          </button>
+        </Link>
+      </div>
     </section>
   );
 }
