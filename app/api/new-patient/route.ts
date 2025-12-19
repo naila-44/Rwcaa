@@ -1,46 +1,41 @@
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
-
-const MONGODB_URI = process.env.MONGODB_URI as string;
-
-async function connectDB() {
-  if (mongoose.connection.readyState === 1) return;
-  await mongoose.connect(MONGODB_URI);
-}
-
-
-const patientSchema = new mongoose.Schema({
-  name: String,
-  phone: String,
-  email: String,
-  reason: String,
-});
-
-// Avoid *OverwriteModelError*
-const Patient =
-  mongoose.models.Patient || mongoose.model("Patient", patientSchema);
+import { dbConnect } from "@/lib/mongoose";
+import { createPatient } from "@/app/api/services/api.service";
 
 export async function POST(req: Request) {
   try {
-    await connectDB();
+    await dbConnect();
 
     const body = await req.json();
+    const { name, phone, email, reason } = body;
 
-    if (!body.name || !body.phone || !body.email) {
+    if (!name || !phone || !email) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Name, phone and email are required" },
         { status: 400 }
       );
     }
 
-    await Patient.create(body);
+    const patient = await createPatient({
+      name,
+      phone,
+      email,
+      reason,
+    });
 
     return NextResponse.json(
-      { success: true, message: "Form submitted!" },
-      { status: 200 }
+      {
+        success: true,
+        message: "Form submitted successfully",
+        patient,
+      },
+      { status: 201 }
     );
   } catch (error) {
-    console.error("API Error:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    console.error("New patient error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
