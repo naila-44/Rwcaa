@@ -1,23 +1,32 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+import {dbConnect }from "@/lib/mongoose"; 
 import User from "@/Models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export async function POST(req: Request) {
-  await connectDB();
-  const { email, password } = await req.json();
+const JWT_SECRET = process.env.JWT_SECRET!;
 
-  const user = await User.findOne({ email });
-  if (!user) return NextResponse.json({ error: "User not found" });
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { email, password } = body;
 
-  const valid = await bcrypt.compare(password, user.password);
+    if (!email || !password) {
+      return NextResponse.json({ message: "Missing fields" }, { status: 400 });
+    }
 
-  if (!valid) return NextResponse.json({ error: "Wrong password" });
+    await dbConnect();
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
-    expiresIn: "7d",
-  });
+    const user = await User.findOne({ email });
+    if (!user) return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
 
-  return NextResponse.json({ token });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
+
+    return NextResponse.json({ token });
+  } catch (error) {
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
 }
