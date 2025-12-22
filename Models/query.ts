@@ -1,4 +1,4 @@
-// Models/Query.ts
+
 import { Schema, model, models } from "mongoose";
 
 const querySchema = new Schema({
