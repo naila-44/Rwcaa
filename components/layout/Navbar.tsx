@@ -66,7 +66,7 @@ const Navbar = () => {
           <a href="/about" className="block hover:text-[#3566B2]">About</a>
           <a href="/services" className="block hover:text-[#3566B2]">Services</a>
           <a href="/success-stories" className="block hover:text-[#3566B2]">Success Stories</a>
-          <a href="/events" className="block hover:text-[#3566B2]">Events</a>
+          <a href="/events-resources" className="block hover:text-[#3566B2]">Events&Resources</a>
           <a href="/resources" className="block hover:text-[#3566B2]">Resources</a>
           <a href="/contact" className="block hover:text-[#3566B2]">Contact</a>
 
