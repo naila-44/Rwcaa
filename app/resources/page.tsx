@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const ResourcesPage: React.FC = () => {
   return (
@@ -20,12 +21,12 @@ const ResourcesPage: React.FC = () => {
         <div className="container relative z-10 mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <nav className="text-sm mb-6">
-              <a
+              <Link
                 className="text-white/80 hover:text-white transition-colors"
                 href="/"
               >
                 Home
-              </a>
+              </Link>
               <span className="text-white/60 mx-2">/</span>
               <span className="text-white font-medium">Resources</span>
             </nav>
@@ -45,18 +46,18 @@ const ResourcesPage: React.FC = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                className="inline-flex items-center justify-center gap-2 font-medium text-white px-6 py-3 bg-[#1D4077] rounded-lg hover:bg-[#16315a] transition"
-                href="/new-patients"
+              <Link
+                className="inline-flex items-center justify-center gap-2 font-medium text-white px-6 py-3 bg-red-500 rounded-lg hover:bg-red-600 transition"
+                href="/new-patient"
               >
                 Schedule a Consultation
-              </a>
-              <a
-                className="inline-flex items-center justify-center gap-2 font-medium text-white px-6 py-3 bg-[#1D4077] rounded-lg hover:bg-[#16315a] transition"
+              </Link>
+              <Link
+                className="inline-flex items-center justify-center gap-2 font-medium text-white px-6 py-3 bg-slate-300 rounded-lg  transition"
                 href="/why-rwc"
               >
                 Our Approach
-              </a>
+              </Link>
             </div>
           </div>
         </div>
