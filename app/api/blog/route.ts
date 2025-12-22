@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import Blog from "@/Models/Blog";
+import { dbConnect } from "@/lib/mongoose";
+import Blog from "@/models/Blog";
 
 export async function GET() {
-  await connectDB();
+  await dbConnect();
   const posts = await Blog.find();
   return NextResponse.json(posts);
 }
