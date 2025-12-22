@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "@/lib/db"; // named import
-import User from "@/Models/User";
+import { dbConnect } from "@/lib/mongoose"; 
+import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
@@ -14,16 +14,16 @@ export async function POST(req: NextRequest) {
 
     await dbConnect();
 
-    // Check if user already exists
+   
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json({ message: "User already exists" }, { status: 400 });
     }
 
-    // Hash the password
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user in DB
+    
     const user = await User.create({ email, password: hashedPassword });
 
     return NextResponse.json({ message: "User registered successfully", userId: user._id });
