@@ -1,5 +1,5 @@
-import Patient from "@/Models/patient";
-import Appointment from "@/Models/appointment";
+import Patient from "@/models/patient";
+import Appointment from "@/models/appointment";
 
 
 export async function createPatient(data: any) {
