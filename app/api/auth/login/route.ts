@@ -4,9 +4,10 @@ import User from "../../../../Models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
-
 export async function POST(req: NextRequest) {
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!JWT_SECRET) return NextResponse.json({ message: "JWT_SECRET not defined" }, { status: 500 });
+
   try {
     const body = await req.json();
     const { email, password } = body;
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
     return NextResponse.json({ token });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
