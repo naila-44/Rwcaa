@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { dbConnect } from "@/lib/mongoose";
+import { dbConnect } from "../../../lib/mongoose";
 import { createPatient } from "@/app/api/services/api.service";
 
 export async function POST(req: Request) {

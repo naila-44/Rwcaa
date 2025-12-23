@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "@/lib/mongoose";
-import Contact from "@/Models/Contact";
+import { dbConnect } from "../../../lib/mongoose";
+import Contact from "../../../Models/Contact";
 
 export async function POST(req: NextRequest) {
   try {
