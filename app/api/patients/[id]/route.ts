@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/lib/mongoose";
-import Patient from "@/Models/patient";
+import Patient from "../../../../Models/patient";
+
 import mongoose from "mongoose";
 
 type Params = { params: Promise<{ id: string }> };

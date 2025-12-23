@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/lib/mongoose"; 
-import User from "@/Models/User";
+import User from "../../../../Models/User";
+
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
