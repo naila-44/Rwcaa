@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { dbConnect } from "@/lib/mongoose";
-import User from "@/Models/User";
+import { dbConnect } from "../../../lib/mongoose";
+import User from "../../../Models/User";
+
 
 export async function GET() {
   await dbConnect(); 

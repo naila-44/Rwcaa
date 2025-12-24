@@ -1,17 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
-import clientPromise from "@/Models/mongodb";
+import { dbConnect } from "../../../lib/mongoose"; 
+import Resource from "../../../Models/Resource";  
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.json(); // { title, description, fileUrl }
-    const client = await clientPromise;
-    const db = client.db("rwcaa");
+    await dbConnect();
 
-    const result = await db.collection("resources").insertOne(data);
+    const body = await req.json();
 
-    return NextResponse.json({ message: "Resource saved successfully", id: result.insertedId }, { status: 201 });
+   
+    if (!body.title || !body.description) {
+      return NextResponse.json(
+        { error: "Title and description are required" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Create resource using Mongoose model
+    const resource = await Resource.create({
+      title: body.title,
+      description: body.description,
+      category: body.category,
+      createdBy: body.createdBy,
+    });
+
+    return NextResponse.json(
+      { success: true, message: "Resource saved successfully", data: resource },
+      { status: 201 }
+    );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Failed to save resource data" }, { status: 500 });
+    console.error("POST /resources error:", error);
+    return NextResponse.json(
+      { error: "Failed to save resource data" },
+      { status: 500 }
+    );
   }
 }
