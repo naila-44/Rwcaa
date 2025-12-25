@@ -7,39 +7,26 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const testimonials = [
   {
     title: "I Can't Explain How Magical It Is",
-    description: `I have never felt better than I have since seeing Dr. Geck and his amazing therapists. I can't really explain how magical it is. Recently I was in an accident and in just three visits, I was feeling better. I could move my neck and back freely, and even though the bruises were still present, I was thrilled that Dr. Geck and his staff could make me feel so much better.
-
-I wish more doctors understood what Dr. Geck does. He is a maverick in the true sense of the word. He uses cutting edge techniques to both diagnose and treat his patients. Honestly, I think he can fix almost anything.
-
-The office is friendly, spacious and inviting. The AMIT techniques give and the therapeutic staff give patients immediate relief. 
-
-
-    `,
+    description: `I have never felt better than I have since seeing Dr. Geck and his amazing therapists. I can't really explain how magical it is. Recently I was in an accident and in just three visits, I was feeling better.`,
     author: "Debora M.",
   },
   {
-    title: "More Energy and Stamina and Overall Feeling Better",
+    title: "More Energy and Stamina",
     description:
-      "I have been under the care of Dr. Geck for several months now regarding treatment for chronic inflammation due to Lyme's disease.my options in seeking help in this SPECIALIZED area were very minimal. I have greatly appreciated all of Dr. Geck's extreme dedication, expertise, and care on my behalf. I am pain free and truly thought I may have to live with this condition for my remaining life. I would never hesitate to recommend anyone to this office for any issue. Dr. Geck and his entire staff will provide you with the up most care! A VERY GRATEFUL PATIENT.",
+      "I have been under the care of Dr. Geck for several months regarding treatment for chronic inflammation. I am pain free and truly grateful.",
     author: "Sarah L.",
   },
   {
-    title: "Highly Personalized Care at the Right Time",
+    title: "Highly Personalized Care",
     description:
-      "My discovery of this clinic came at the perfect time. I was trying to manage my health alone with online sources, but I needed professional support.",
+      "My discovery of this clinic came at the perfect time. I needed professional support and received exceptional care.",
     author: "Amanda R.",
   },
   {
     title: "Finally Seeing Real Improvements",
     description:
-      "The level of detail and attention provided here is unmatched. Every visit feels like progress.",
+      "The level of detail and attention provided here is unmatched.",
     author: "Jason P.",
-  },
-  {
-    title: "Deep Healing I Never Thought Possible",
-    description:
-      "I have been to many clinics, but this is the only place where I felt truly understood and cared for.",
-    author: "Michelle T.",
   },
 ];
 
@@ -51,68 +38,67 @@ export default function Testimonials() {
   const goPrev = () => setIndex((i) => (i === 0 ? total - 1 : i - 1));
 
   return (
-    <section className="py-24 px-6 min-h-screen bg-purple-200/10">
-    
-      <h2 className="text-center text-[#1D4077] text-5xl font-extrabold mb-14">
+    <section className="py-16 px-4 bg-purple-200/10">
+     
+      <h2 className="text-center text-[#1D4077] text-3xl md:text-4xl font-bold mb-8">
         What Our Patients Are Saying
       </h2>
 
-  
-      <div className="max-w-4xl mx-auto bg-white p-14 rounded-3xl shadow-xl relative min-h-[520px] flex flex-col transition-all duration-500">
-        <div className="text-pink-400 text-6xl mb-4">“</div>
+     
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg min-h-[320px] flex flex-col">
+        <div className="text-pink-400 text-4xl mb-2">“</div>
 
-        <h3 className="text-3xl font-bold text-blue-900 mb-6 leading-snug">
+        <h3 className="text-xl font-semibold text-blue-900 mb-3">
           {testimonials[index].title}
         </h3>
 
-        <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <p className="text-gray-700 text-base leading-relaxed flex-1">
           {testimonials[index].description}
         </p>
 
-        <div className="mt-12">
-          <p className="text-3xl text-blue-900 italic font-semibold">
-            {testimonials[index].author}
-          </p>
-        </div>
+        <p className="mt-4 text-lg text-blue-900 font-medium italic">
+          {testimonials[index].author}
+        </p>
       </div>
 
-      <div className="flex justify-center items-center mt-10 gap-6">
+     
+      <div className="flex justify-center items-center mt-6 gap-4">
         <button
           onClick={goPrev}
-          className="bg-white shadow-lg p-3 rounded-full hover:bg-gray-100 transition border-black"
+          className="bg-white shadow p-2 rounded-full hover:bg-gray-100"
         >
-          <ChevronLeft className="text-blue-700" size={24} />
+          <ChevronLeft className="text-blue-700" size={20} />
         </button>
 
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           {Array.from({ length: total }).map((_, i) => (
-            <div
+            <span
               key={i}
-              className={`w-3 h-3 rounded-full cursor-pointer ${
+              onClick={() => setIndex(i)}
+              className={`w-2.5 h-2.5 rounded-full cursor-pointer ${
                 i === index ? "bg-red-500" : "bg-gray-400"
               }`}
-              onClick={() => setIndex(i)}
             />
           ))}
         </div>
 
         <button
           onClick={goNext}
-          className="bg-white shadow-lg p-3 rounded-full hover:bg-gray-100 transition"
+          className="bg-white shadow p-2 rounded-full hover:bg-gray-100"
         >
-          <ChevronRight className="text-blue-700" size={24} />
+          <ChevronRight className="text-blue-700" size={20} />
         </button>
       </div>
 
-
-      <p className="text-center text-black text-lg mt-3">
+    
+      <p className="text-center text-sm text-gray-600 mt-2">
         {index + 1} / {total}
       </p>
 
-    
-      <div className="text-center mt-10">
+      
+      <div className="text-center mt-6">
         <Link href="/success-stories">
-          <button className="px-8 py-4 bg-[#1D4077] text-white font-bold rounded-xl shadow-lg hover:bg-gray-100 transition text-lg">
+          <button className="px-6 py-3 bg-[#1D4077] text-white font-semibold rounded-lg hover:bg-gray-500 transition">
             Read More Success Stories
           </button>
         </Link>
