@@ -1,28 +1,41 @@
-
-import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "../../../../lib/mongoose";
-import User from "../../../../Models/User";
+import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../../../../Models/User";
+import { dbConnect } from "../../../../lib/mongoose";
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { name, email, password } = body;
+export async function POST(req: Request) {
+  await dbConnect();
+  const { name, email, password, adminSecret } = await req.json();
 
-    if (!name || !email || !password)
-      return NextResponse.json({ message: "Missing fields" }, { status: 400 });
-
-    await dbConnect();
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return NextResponse.json({ message: "User already exists" }, { status: 400 });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
-
-    return NextResponse.json({ message: "User registered successfully", user });
-  } catch (error) {
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  if (!name || !email || !password || !adminSecret) {
+    return NextResponse.json({ message: "All fields are required" }, { status: 400 });
   }
+
+  if (adminSecret !== process.env.ADMIN_REGISTER_SECRET) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const adminCount = await User.countDocuments({ role: "admin" });
+  if (adminCount > 0) {
+    return NextResponse.json({ message: "Admin registration disabled" }, { status: 403 });
+  }
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return NextResponse.json({ message: "Admin already exists" }, { status: 409 });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const admin = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    role: "admin",
+  });
+
+  const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET!, { expiresIn: "7d" });
+
+  return NextResponse.json({ message: "Admin registered successfully", token }, { status: 201 });
 }
